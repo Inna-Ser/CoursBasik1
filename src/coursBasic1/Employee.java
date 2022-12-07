@@ -1,6 +1,7 @@
 package coursBasic1;
 
 import java.lang.reflect.Array;
+import java.nio.file.NotDirectoryException;
 import java.util.Arrays;
 
 public class Employee {
@@ -14,6 +15,7 @@ public class Employee {
         this.nameEmployee = nameEmployee;
         this.department = department;
         this.salary = salary;
+
         id = count;
         count++;
     }
@@ -31,6 +33,9 @@ public class Employee {
     }
 
     public void setDepartment(int department) {
+        if (department < 0 || department > 5) {
+            throw new IllegalArgumentException("Такого отдела не существует. Проерьте вводные данные");
+        }
         this.department = department;
     }
 
@@ -39,19 +44,19 @@ public class Employee {
     }
 
     public void setSalary(double salary) {
+        if (salary < 0) {
+            throw new IllegalArgumentException("Нельзя начислять зарплату менбше 0.0р.");
+        }
         this.salary = salary;
     }
-
 
     @Override
     public String toString() {
         return id + ". Сотрудник " + nameEmployee + ", отдел " + department + ", получает зарплату - " + salary + "р.";
     }
 
-    private static String separator = "===========================";
-
-    public static String getSeparator() {
-        return separator;
+    public static String getSeparator(Employee[] employees) {
+        return "================================";
     }
 
     public static double calculationSumSalaryInMonth(Employee[] employees) {
@@ -132,26 +137,6 @@ public class Employee {
         }
     }
 
-    public static void maxSalaryOfDepartment(Employee[] employees, int numDepartment) {
-        double maxSalaryDepartment = 0;
-        for (Employee employee : employees) {
-            if (employee != null) {
-                if (employee.getDepartment() == numDepartment) {
-                    if (employee.getSalary() > maxSalaryDepartment) {
-                        maxSalaryDepartment = employee.getSalary();
-                    }
-                }
-            }
-        }
-        for (Employee value : employees) {
-            if (value != null) {
-                if (maxSalaryDepartment == value.getSalary()) {
-                    System.out.println(Employee.getSeparator() + "\nСамую высокую зарплату в " + numDepartment + " отделе - " + value.getSalary() + "р. получает " + value.getNameEmployee());
-                }
-            }
-        }
-    }
-
     public static void minSalaryOfDepartment(Employee[] employees, int numDepartment) {
         double minSalaryDepartment = 0;
         for (Employee employee : employees) {
@@ -159,7 +144,6 @@ public class Employee {
                 if (employee.getDepartment() == numDepartment) {
                     if (employee.getSalary() > minSalaryDepartment) {
                         minSalaryDepartment = employee.getSalary();
-                        break;
                     }
                 }
             }
@@ -167,7 +151,28 @@ public class Employee {
         for (Employee value : employees) {
             if (value != null) {
                 if (minSalaryDepartment == value.getSalary()) {
-                    System.out.println("Самую низкую зарплату в " + value.getDepartment() + " отделе - " + value.getSalary() + "р. получает " + value.getNameEmployee() + "\n" + Employee.getSeparator());
+                    System.out.println("Самую низкую зарплату в " + numDepartment + " отделе - " + value.getSalary() + "р. получает " + value.getNameEmployee());
+                }
+            }
+        }
+    }
+
+    public static void maxSalaryOfDepartment(Employee[] employees, int numDepartment) {
+        double maxSalaryDepartment = 0;
+        for (Employee employee : employees) {
+            if (employee != null) {
+                if (employee.getDepartment() == numDepartment) {
+                    if (employee.getSalary() > maxSalaryDepartment) {
+                        maxSalaryDepartment = employee.getSalary();
+                        break;
+                    }
+                }
+            }
+        }
+        for (Employee value : employees) {
+            if (value != null) {
+                if (maxSalaryDepartment == value.getSalary()) {
+                    System.out.println("Самую высокую зарплату в " + value.getDepartment() + " отделе - " + value.getSalary() + "р. получает " + value.getNameEmployee());
                 }
             }
         }
@@ -242,4 +247,5 @@ public class Employee {
             }
         }
     }
+
 }
