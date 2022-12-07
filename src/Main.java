@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
         Employee[] employees = new Employee[10];
         employees[0] = new Employee("Иванов Иван Иванович", 1, 55_000);
-        employees[1] = new Employee("Петров Семен Вфсильевич", 3, 65_000);
+        employees[1] = new Employee("Петров Семен Васильевич", 3, 65_000);
         employees[2] = new Employee("Козлов Василий Васильевич", 5, 110_000);
         employees[3] = new Employee("Ивашкина Галина Альбертовна", 1, 51_000);
         employees[4] = new Employee("Дунай Инна Семеновна", 4, 126_000);
