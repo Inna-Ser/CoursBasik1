@@ -1,60 +1,99 @@
 package coursBasic1;
 
+import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.nio.file.NotDirectoryException;
 import java.util.Arrays;
 
 public class Employee {
-    private String nameEmployee;
+    private String fullName;
+    private String lastName;
+    private String firstName;
+    private String patronymic;
     private double salary;
     private int department;
     private static int count = 1;
     private final int id;
+    private double index;
 
-    public Employee(String nameEmployee, int department, double salary) {
-        this.nameEmployee = nameEmployee;
+    public Employee(String lastName, String firstName, String patronymic, int department, double salary) {
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.patronymic = patronymic;
         this.department = department;
         this.salary = salary;
 
+        fullName = lastName + " " + firstName + " " + patronymic;
         id = count;
         count++;
     }
 
-    public String getNameEmployee() {
-        return nameEmployee;
+    // геттеры
+
+    public String getFullName() {  // объединяем Ф.И.О. в перемменную для удобства
+        return fullName;
     }
 
-    public void setNameEmployee(String nameEmployee) {
-        this.nameEmployee = nameEmployee;
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getPatronymic() {
+        return patronymic;
     }
 
     public int getDepartment() {
         return department;
     }
 
+    public double getSalary() {
+        return salary;
+    }
+
+    public double getIndex() {
+        return index;
+    }
+
+    // сеттеры
+    public void setLastName() {
+        this.lastName = lastName;
+    }
+
+    public void setFirstName() {
+        this.firstName = firstName;
+    }
+
+    public void setPatronymic() {
+        this.patronymic = patronymic;
+    }
+
+    public void setIndex() {
+        this.index = index;
+    }
+// сеттеры/выводы ошибок
+    public void setSalary(double salary) {
+        if (salary < 0) {
+            throw new IllegalArgumentException("Нельзя начислять зарплату меньше 0.0р.");
+        }
+        this.salary = salary;
+    }
+
     public void setDepartment(int department) {
-        if (department < 0 || department > 5) {
+        if (department < 1 || department > 5) {
             throw new IllegalArgumentException("Такого отдела не существует. Проерьте вводные данные");
         }
         this.department = department;
     }
 
-    public double getSalary() {
-        return salary;
-    }
-
-    public void setSalary(double salary) {
-        if (salary < 0) {
-            throw new IllegalArgumentException("Нельзя начислять зарплату менбше 0.0р.");
-        }
-        this.salary = salary;
-    }
-
     @Override
     public String toString() {
-        return id + ". Сотрудник " + nameEmployee + ", отдел " + department + ", получает зарплату - " + salary + "р.";
+        return id + ". Сотрудник " + getFullName() + ", отдел " + department + ", получает зарплату - " + salary;
     }
-
+    // разделитель
     public static String getSeparator(Employee[] employees) {
         return "================================";
     }
@@ -69,7 +108,7 @@ public class Employee {
         return sumSalaryInMonth;
     }
 
-    public static double middleMealsSalaries(Employee[] employees) {
+    public static void middleMealsSalaries(Employee[] employees) {
         double middleMealsSalary;
         int countEmployee = 0;
         for (Employee employee : employees) {
@@ -78,7 +117,7 @@ public class Employee {
             }
         }
         middleMealsSalary = calculationSumSalaryInMonth(employees) / countEmployee;
-        return middleMealsSalary;
+        System.out.printf("Средняя зарплата сотрудников за месяц составляет " + "%.1f", middleMealsSalary);
     }
 
     public static void findEmployeeWithMinSalary(Employee[] employees) {
@@ -94,7 +133,7 @@ public class Employee {
         for (Employee value : employees) {
             if (value != null) {
                 if (minSalary == value.getSalary()) {
-                    System.out.println("Самую низкую зарплату " + value.getSalary() + "р. получает " + value.getNameEmployee());
+                    System.out.println("Самую низкую зарплату " + value.getSalary() + " получает " + value.getFullName());
 
                 }
             }
@@ -113,7 +152,7 @@ public class Employee {
         for (Employee value : employees) {
             if (value != null) {
                 if (maxSalary == value.getSalary()) {
-                    System.out.println("Самую высокую зарплату " + value.getSalary() + "р. получает " + value.getNameEmployee());
+                    System.out.println("Самую высокую зарплату " + value.getSalary() + " получает " + value.getFullName());
                 }
             }
         }
@@ -122,17 +161,17 @@ public class Employee {
     public static void listNameEmployee(Employee[] employees) {
         for (Employee employee : employees) {
             if (employee != null) {
-                System.out.println(employee.id + ". " + employee.getNameEmployee());
+                System.out.println(employee.id + ". " + employee.getFullName());
             }
         }
     }
 
     public static void correctSalary(Employee[] employees, double index) {
-        double novaSalary = 0;
+        double novaSalary;
         for (Employee employee : employees) {
             if (employee != null) {
                 novaSalary = employee.getSalary() + (employee.getSalary() / 100 * index);
-                System.out.println(employee.id + ". " + employee.getNameEmployee() + " " + employee.getDepartment() + " отдел. Зарплата увеличилась на " + index + "%, и составила " + novaSalary + "р. ");
+                System.out.println(employee.id + " " + employee.getFullName() + " " + employee.getDepartment() + " отдел. Зарплата увеличилась на " + index + "%, и составила " + novaSalary);
             }
         }
     }
@@ -151,7 +190,7 @@ public class Employee {
         for (Employee value : employees) {
             if (value != null) {
                 if (minSalaryDepartment == value.getSalary()) {
-                    System.out.println("Самую низкую зарплату в " + numDepartment + " отделе - " + value.getSalary() + "р. получает " + value.getNameEmployee());
+                    System.out.println("Самую низкую зарплату в " + numDepartment + " отделе - " + value.getSalary() + " получает " + value.getFullName());
                 }
             }
         }
@@ -172,7 +211,7 @@ public class Employee {
         for (Employee value : employees) {
             if (value != null) {
                 if (maxSalaryDepartment == value.getSalary()) {
-                    System.out.println("Самую высокую зарплату в " + value.getDepartment() + " отделе - " + value.getSalary() + "р. получает " + value.getNameEmployee());
+                    System.out.println("Самую высокую зарплату в " + value.getDepartment() + " отделе - " + value.getSalary() + " получает " + value.getFullName());
                 }
             }
         }
@@ -190,7 +229,7 @@ public class Employee {
         return sumSalaryOfDepartment;
     }
 
-    public static double middleSalaryOfDepartment(Employee[] employees, int numDepartment) {
+    public static void middleSalaryOfDepartment(Employee[] employees, int numDepartment) {
         double middleMealsSalaryOfDepartment;
         int countEmployee = 0;
         for (Employee employee : employees) {
@@ -201,14 +240,14 @@ public class Employee {
             }
         }
         middleMealsSalaryOfDepartment = calculationSumSalaryOfDepartment(employees, numDepartment) / countEmployee;
-        return middleMealsSalaryOfDepartment;
+        System.out.printf("Средняя зарплата по " + numDepartment + "-му отделу - " + "%.1f", middleMealsSalaryOfDepartment);
     }
 
     public static void employeeOfDepartment(Employee[] employees, int numDepartment) {
         for (Employee employee : employees) {
             if (employee != null) {
                 if (employee.getDepartment() == numDepartment) {
-                    System.out.println(employee.id + ". " + employee.getNameEmployee() + " " + ", зарплата - " + employee.getSalary() + "р. ");
+                    System.out.println(employee.id + ". " + employee.getFullName() + ", зарплата - " + employee.getSalary());
                 }
             }
         }
@@ -218,8 +257,7 @@ public class Employee {
         for (Employee employee : employees) {
             if (employee != null) {
                 if (employee.getSalary() < number) {
-                    System.out.println(employee.id + ". " + employee.getNameEmployee() + " " + ", зарплата - " + employee.getSalary() + "р. ");
-
+                    System.out.println(employee.id + ". " + employee.getFullName() + " " + employee.getDepartment() + " отдел, зарплата - " + employee.getSalary());
                 }
             }
         }
@@ -229,8 +267,7 @@ public class Employee {
         for (Employee employee : employees) {
             if (employee != null) {
                 if (employee.getSalary() >= number) {
-                    System.out.println(employee.id + ". " + employee.getNameEmployee() + " " + ", зарплата - " + employee.getSalary() + "р. ");
-
+                    System.out.println(employee.id + ". " + employee.getFullName() + " " + employee.getDepartment() + " отдел, зарплата - " + employee.getSalary());
                 }
             }
         }
@@ -242,10 +279,9 @@ public class Employee {
             if (employee != null) {
                 if (employee.getDepartment() == numDepartment) {
                     novaSalaryOfDepartment = employee.getSalary() + (employee.getSalary() / 100 * index);
-                    System.out.println(employee.nameEmployee + ", " + numDepartment + " отдел, зарплата увеличилась на " + index + "% и составила " + novaSalaryOfDepartment + "р. ");
+                    System.out.println(employee.getFullName() + ", " + numDepartment + " отдел, зарплата увеличилась на " + index + "% и составила " + novaSalaryOfDepartment);
                 }
             }
         }
     }
-
 }
