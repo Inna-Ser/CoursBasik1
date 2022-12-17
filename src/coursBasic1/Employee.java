@@ -162,15 +162,14 @@ public class Employee {
     }
 
     public static void minSalaryOfDepartment(Employee[] employees, int numDepartment) {
-        double minSalaryOfDepartment = 0;
+        double minSalaryOfDepartment = 1000000;
         Employee foundEmployee = null;
         for (Employee employee : employees) {
             if (employee != null) {
                 if (employee.getDepartment() == numDepartment) {
-                    if (employee.getSalary() > minSalaryOfDepartment) {
+                    if (employee.getSalary() < minSalaryOfDepartment) {
                         minSalaryOfDepartment = employee.getSalary();
                         foundEmployee = employee;
-                        break;
                     }
                 }
             }
